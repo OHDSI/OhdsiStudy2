@@ -21,6 +21,6 @@ execute(dbms = "postgresql",
         resultsSchema = "results_schema")
 ```
 
-- Email the resulting files to study coordinator.
+- Email the resulting files (*.csv) to study coordinator.
 
 If you would like to run the study directly from SQL without using R, contact the study administrator listed on the [Wiki page](http://www.ohdsi.org/web/wiki/doku.php?id=research:treatment_pathways_in_chronic_disease_12_mos). 
