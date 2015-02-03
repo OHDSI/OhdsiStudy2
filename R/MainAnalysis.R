@@ -1,13 +1,3 @@
-###########################################################
-# R script for creating SQL files (and sending the SQL    # 
-# commands to the server) for the treatment pattern       #
-# studies for these diseases:                             #
-# - Hypertension (HTN)                                    #
-# - Type 2 Diabetes (T2DM)                                #
-# - Depression                                            #
-#                                                         #
-# Requires: R and Java 1.6 or higher                      #
-###########################################################
 
 #' @title Execute OHDSI Study 2
 #'
@@ -32,11 +22,11 @@
 #' @param password		The password for that user
 #' @param server			The name of the server
 #' @param port				(optional) The port on the server to connect to
-#' @param cdmSchema  The name of the CDM schema to connect to
-#' @param resultsSchema  The name of the existant results schema to connect to
+#' @param cdmSchema  Schema name where your patient-level data in OMOP CDM format resides
+#' @param resultsSchema  Schema where you'd like the results tables to be created (requires user to have create/write access)
 #' @param minCellCount  The smallest allowable cell count, 1 means all counts are allowed
-#' @param sourceName WHAT IS THIS? TODO
-#' @param folder   The name of the local folder to place results
+#' @param sourceName Short name that will be appeneded to results table name
+#' @param folder   The name of the local folder to place results;  make sure to use forward slashes (/)
 #' 
 #' @importFrom DBI dbDisconnect
 #' @export
@@ -45,28 +35,7 @@ execute <- function(dbms, user, password, server, port,
 										minCellCount = 1,
 										sourceName = "source_name",
 										folder = getwd()) {
-										
-# 	folder = getwd(), # Folder containing the R and SQL files, use forward slashes
-# 										minCellCount  = 1,   # the smallest allowable cell count, 1 means all counts are allowed
-# 										cdmSchema     = "cdm_schema",
-# 										resultsSchema = "results_schema",
-# 										sourceName    = "source_name",
-# 										dbms          = "sql server",  	  # Should be "sql server", "oracle", "postgresql" or "redshift"
-# 										user,
-# 										password,
-# 										server,
-# 										port = NULL) {
-	
-	# If you want to use R to run the SQL and extract the results tables, please create a connectionDetails 
-	# object. See ?createConnectionDetails for details on how to configure for your DBMS.
-	
-	
-	
-	# user <- NULL
-	# pw <- NULL
-	# server <- "server_name"
-	# port <- NULL
-	
+
 	connectionDetails <- DatabaseConnector::createConnectionDetails(dbms=dbms, 
 																																	server=server, 
 																																	user=user, 
@@ -80,9 +49,7 @@ execute <- function(dbms, user, password, server, port,
 	###########################################################
 	
 	setwd(folder)
-	
-	# source("HelperFunctions.R")
-	
+		
 	# Create the parameterized SQL files:
 	htnSqlFile <- renderStudySpecificSql("HTN12mo",minCellCount,cdmSchema,resultsSchema,sourceName,dbms)
 	t2dmSqlFile <- renderStudySpecificSql("T2DM12mo",minCellCount,cdmSchema,resultsSchema,sourceName,dbms)
