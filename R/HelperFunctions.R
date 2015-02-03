@@ -21,7 +21,7 @@ renderStudySpecificSql <- function(studyName, minCellCount, cdmSchema, resultsSc
 													 package="OhdsiStudy2")   
 	#   inputFile <- "TxPath_parameterized.sql"
 	
-	outputFile <- paste("TxPath_autoTranslate ", dbms," ", studyName, ".sql",sep="")
+	outputFile <- paste("TxPath_autoTranslate_", dbms,"_", studyName, ".sql",sep="")
 	
 	parameterizedSql <- SqlRender::readSql(inputFile)
 	renderedSql <- SqlRender::renderSql(parameterizedSql, cdmSchema=cdmSchema, resultsSchema=resultsSchema, studyName = studyName, sourceName=sourceName, txlist=TxList, dxlist=DxList, excludedxlist=ExcludeDxList, smallcellcount = minCellCount)$sql
