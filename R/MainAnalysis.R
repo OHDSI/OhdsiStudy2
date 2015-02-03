@@ -9,39 +9,30 @@
 # Requires: R and Java 1.6 or higher                      #
 ###########################################################
 
-# # Install necessary packages if needed
-# install.packages("devtools")
-# library(devtools)
-# install_github("ohdsi/SqlRender")
-# install_github("ohdsi/DatabaseConnector")
-# 
-# # Load libraries
-# library(SqlRender)
-# library(DatabaseConnector)
 
-###########################################################
-# Parameters: Please change these to the correct values:  #
-###########################################################
 
-execute <- function() {
-folder        = "F:/Documents/OHDSI/StudyProtocols/Study 2 - Treatment Pathways 12mo/R Version" # Folder containing the R and SQL files, use forward slashes
-minCellCount  = 1   # the smallest allowable cell count, 1 means all counts are allowed
-cdmSchema     = "cdm_schema"
-resultsSchema = "results_schema"
-sourceName    = "source_name"
-dbms          = "sql server"  	  # Should be "sql server", "oracle", "postgresql" or "redshift"
-
+execute <- function(folder = getwd(), # Folder containing the R and SQL files, use forward slashes
+										minCellCount  = 1,   # the smallest allowable cell count, 1 means all counts are allowed
+										cdmSchema     = "cdm_schema",
+										resultsSchema = "results_schema",
+										sourceName    = "source_name",
+										dbms          = "sql server",  	  # Should be "sql server", "oracle", "postgresql" or "redshift"
+										user,
+										pw,
+										server,
+										port) {
+										
 # If you want to use R to run the SQL and extract the results tables, please create a connectionDetails 
 # object. See ?createConnectionDetails for details on how to configure for your DBMS.
 
 
 
-user <- NULL
-pw <- NULL
-server <- "server_name"
-port <- NULL
+# user <- NULL
+# pw <- NULL
+# server <- "server_name"
+# port <- NULL
 
-connectionDetails <- createConnectionDetails(dbms=dbms, 
+connectionDetails <- DatabaseConnecter::createConnectionDetails(dbms=dbms, 
                                               server=server, 
                                               user=user, 
                                               password=pw, 
@@ -55,7 +46,7 @@ connectionDetails <- createConnectionDetails(dbms=dbms,
 
 setwd(folder)
 
-source("HelperFunctions.R")
+# source("HelperFunctions.R")
 
 # Create the parameterized SQL files:
 htnSqlFile <- renderStudySpecificSql("HTN12mo",minCellCount,cdmSchema,resultsSchema,sourceName,dbms)
@@ -63,10 +54,10 @@ t2dmSqlFile <- renderStudySpecificSql("T2DM12mo",minCellCount,cdmSchema,resultsS
 depSqlFile <- renderStudySpecificSql("Depression12mo",minCellCount,cdmSchema,resultsSchema,sourceName,dbms)
 
 # Execute the SQL:
-conn <- connect(connectionDetails)
-executeSql(conn,readSql(htnSqlFile))
-executeSql(conn,readSql(t2dmSqlFile))
-executeSql(conn,readSql(depSqlFile))
+conn <- DatabaseConnector::connect(connectionDetails)
+DatabaseConnector::executeSql(conn,readSql(htnSqlFile))
+DatabaseConnector::executeSql(conn,readSql(t2dmSqlFile))
+DatabaseConnector::executeSql(conn,readSql(depSqlFile))
 
 # Extract tables to CSV files:
 extractAndWriteToFile(conn, "summary", resultsSchema, sourceName, "HTN12mo", dbms)
@@ -81,6 +72,6 @@ extractAndWriteToFile(conn, "summary", resultsSchema, sourceName, "Depression12m
 extractAndWriteToFile(conn, "person_cnt", resultsSchema, sourceName, "Depression12mo", dbms)
 extractAndWriteToFile(conn, "seq_cnt", resultsSchema, sourceName, "Depression12mo", dbms)
 
-dbDisconnect(conn)
+DBI::dbDisconnect(conn)
 
 }

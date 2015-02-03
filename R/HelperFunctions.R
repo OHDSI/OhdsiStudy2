@@ -13,8 +13,12 @@ renderStudySpecificSql <- function(studyName, minCellCount, cdmSchema, resultsSc
     ExcludeDxList <- '444094,432876,435783'
   }
   
-  inputFile <- "TxPath parameterized.sql"
-  outputFile <- paste("TxPath autoTranslate ", dbms," ", studyName, ".sql",sep="")
+  inputFile <- system.file(paste("sql/","sql_server",sep=""), 
+  												 "TxPath_parameterized.sql", 
+  												 package="OhdsiStudy2")   
+#   inputFile <- "TxPath_parameterized.sql"
+  
+  outputFile <- paste("TxPath_autoTranslate ", dbms," ", studyName, ".sql",sep="")
   
   parameterizedSql <- readSql(inputFile)
   renderedSql <- renderSql(parameterizedSql, cdmSchema=cdmSchema, resultsSchema=resultsSchema, studyName = studyName, sourceName=sourceName, txlist=TxList, dxlist=DxList, excludedxlist=ExcludeDxList, smallcellcount = minCellCount)$sql
