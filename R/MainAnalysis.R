@@ -1,4 +1,57 @@
 
+#' @title Email results
+#' 
+#' @details
+#' This function emails the result CSV files to the study coordinator.
+#' 
+#' @return 
+#' A list of files that were emailed.
+#' 
+#' @param from     Return email address
+#' @param to			Delivery email address (must be a gmail.com acccount)
+#' @param subject  Subject line of email
+#' @param dataDescription A short description of the database
+#' @param sourceName Short name that was be appeneded to results table name
+#' @param folder   The name of the local folder to place results;  make sure to use forward slashes (/)
+#'
+#' @export
+email <- function(from,
+									to = "msuchard@gmail.com",
+									subject = "OHDSI Study 2 Results",
+									dataDescription,
+									sourceName = "source_name",
+									folder = getwd()) {
+	
+	if (missing(from)) stop("Must provide return address")
+	if (missing(dataDescription)) stop("Must provide a data description")
+	
+	suffix <- c("_person_cnt.csv", "_seq_cnt.csv", "_summary.csv")
+	prefix <- c("Depression12mo_", "HTN12mo_", "T2DM12mo_")
+	
+	files <- unlist(lapply(prefix, paste, 
+												 paste(sourceName, suffix, sep =""), 
+												 sep =""))
+	absolutePaths <- paste(folder, files, sep="/")
+	
+	result <- mailR::send.mail(from = from,
+														 to = to,
+														 subject = subject,
+														 body = paste("\n", dataDescription, "\n",
+														 						 sep = ""),
+														 smtp = list(host.name = "aspmx.l.google.com",
+														 						port = 25),
+														 attach.files = absolutePaths,						
+														 authenticate = FALSE,
+														 send = TRUE)
+	if (result$isSendPartial()) {
+		stop("Error in sending email")
+	} else {
+		writeLines("Emailed the following files:\n")
+		writeLines(paste(absolutePaths, collapse="\n"))
+		writeLines(paste("\nto:", to))
+	}
+}
+
 #' @title Execute OHDSI Study 2
 #'
 #' @details

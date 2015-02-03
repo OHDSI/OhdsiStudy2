@@ -15,12 +15,16 @@ library(OhdsiStudy2)
 
 execute(dbms = "postgresql",
         user = "joebruin",
-        password = "supersecrete",
+        password = "supersecret",
         server = "myserver",
         cdmSchema = "cdm_schema",
         resultsSchema = "results_schema")
+        
+# To automatically email result files        
+email(from = "collaborator@ohdsi.org",
+      dataDescription = "CDM4 Simulated data")        
 ```
 
-- Email the resulting files (*.csv) to study coordinator.
+- Email (if not already done in R) the result files (*.csv) to study coordinator.
 
 If you would like to run the study directly from SQL without using R, contact the study administrator listed on the [Wiki page](http://www.ohdsi.org/web/wiki/doku.php?id=research:treatment_pathways_in_chronic_disease_12_mos). 
