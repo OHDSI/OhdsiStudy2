@@ -4,7 +4,7 @@
 \alias{execute}
 \title{Execute OHDSI Study 2}
 \usage{
-execute(dbms, user, password, server, port, cdmSchema, resultsSchema,
+execute(dbms, user, password, server, port = NULL, cdmSchema, resultsSchema,
   minCellCount = 1, sourceName = "source_name", folder = getwd())
 }
 \arguments{
@@ -25,15 +25,15 @@ execute(dbms, user, password, server, port, cdmSchema, resultsSchema,
 
 \item{port}{(optional) The port on the server to connect to}
 
-\item{cdmSchema}{The name of the CDM schema to connect to}
+\item{cdmSchema}{Schema name where your patient-level data in OMOP CDM format resides}
 
-\item{resultsSchema}{The name of the existant results schema to connect to}
+\item{resultsSchema}{Schema where you'd like the results tables to be created (requires user to have create/write access)}
 
 \item{minCellCount}{The smallest allowable cell count, 1 means all counts are allowed}
 
-\item{sourceName}{WHAT IS THIS? TODO}
+\item{sourceName}{Short name that will be appeneded to results table name}
 
-\item{folder}{The name of the local folder to place results}
+\item{folder}{The name of the local folder to place results;  make sure to use forward slashes (/)}
 }
 \value{
 Study results are placed in CSV format files in specified local folder.

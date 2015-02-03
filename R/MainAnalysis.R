@@ -30,7 +30,8 @@
 #' 
 #' @importFrom DBI dbDisconnect
 #' @export
-execute <- function(dbms, user, password, server, port,
+execute <- function(dbms, user, password, server, 
+										port = NULL,
 										cdmSchema, resultsSchema, 
 										minCellCount = 1,
 										sourceName = "source_name",

@@ -10,10 +10,12 @@ This is a study of treatment pathways in hypertension, diabetes, and depression 
 ```R
 library(devtools)
 install_github("OHDSI/OhdsiStudy2")
+library(OhdsiStudy2)
 ?execute # To get extended help
 
-execute(user = "joebruin",
-        passward = "supersecrete",
+execute(dbms = "postgresql",
+        user = "joebruin",
+        password = "supersecrete",
         server = "myserver",
         cdmSchema = "cdm_schema",
         resultsSchema = "results_schema")
