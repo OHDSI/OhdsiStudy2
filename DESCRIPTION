@@ -16,4 +16,5 @@ Depends:
 Imports:
 	SqlRender,
 	DatabaseConnector,
-	DBI
+	DBI,
+	mailR
