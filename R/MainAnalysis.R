@@ -16,7 +16,7 @@
 #'
 #' @export
 email <- function(from,
-									to = "msuchard@gmail.com",
+									to = "rijduke@gmail.com",
 									subject = "OHDSI Study 2 Results",
 									dataDescription,
 									sourceName = "source_name",

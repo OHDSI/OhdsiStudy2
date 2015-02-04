@@ -22,7 +22,7 @@ execute(dbms = "postgresql",
         
 # To automatically email result files        
 email(from = "collaborator@ohdsi.org",
-      dataDescription = "CDM4 Simulated data")        
+      dataDescription = "CDM4 Simulated Data")        
 ```
 
 - Email (if not already done in R) the result files (*.csv) to study coordinator.
