@@ -6,11 +6,11 @@ renderStudySpecificSql <- function(studyName, minCellCount, cdmSchema, resultsSc
 		TxList <- '21600381,21601461,21601560,21601664,21601744,21601782'
 		DxList <- '316866'
 		ExcludeDxList <- '444094'
-	} else if (studyName == "T2DM12mo"){
+	} else if (studyName == "DM12mo"){
 		TxList <- '21600712,21500148'
 		DxList <- '201820'
 		ExcludeDxList <- '444094,35506621'
-	} else if (studyName == "Depression12mo"){
+	} else if (studyName == "Dep12mo"){
 		TxList <- '21604686, 21500526'
 		DxList <- '440383'
 		ExcludeDxList <- '444094,432876,435783'

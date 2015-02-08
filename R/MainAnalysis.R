@@ -26,7 +26,7 @@ email <- function(from,
 	if (missing(dataDescription)) stop("Must provide a data description")
 	
 	suffix <- c("_person_cnt.csv", "_seq_cnt.csv", "_summary.csv")
-	prefix <- c("Depression12mo_", "HTN12mo_", "T2DM12mo_")
+	prefix <- c("Dep12mo_", "HTN12mo_", "DM12mo_")
 	
 	files <- unlist(lapply(prefix, paste, 
 												 paste(sourceName, suffix, sep =""), 
@@ -106,8 +106,8 @@ execute <- function(dbms, user, password, server,
 		
 	# Create the parameterized SQL files:
 	htnSqlFile <- renderStudySpecificSql("HTN12mo",minCellCount,cdmSchema,resultsSchema,sourceName,dbms)
-	t2dmSqlFile <- renderStudySpecificSql("T2DM12mo",minCellCount,cdmSchema,resultsSchema,sourceName,dbms)
-	depSqlFile <- renderStudySpecificSql("Depression12mo",minCellCount,cdmSchema,resultsSchema,sourceName,dbms)
+	t2dmSqlFile <- renderStudySpecificSql("DM12mo",minCellCount,cdmSchema,resultsSchema,sourceName,dbms)
+	depSqlFile <- renderStudySpecificSql("Dep12mo",minCellCount,cdmSchema,resultsSchema,sourceName,dbms)
 	
 	# Execute the SQL:
 	conn <- DatabaseConnector::connect(connectionDetails)
@@ -120,13 +120,13 @@ execute <- function(dbms, user, password, server,
 	extractAndWriteToFile(conn, "person_cnt", cdmSchema, resultsSchema, sourceName, "HTN12mo", dbms)
 	extractAndWriteToFile(conn, "seq_cnt", cdmSchema, resultsSchema, sourceName, "HTN12mo", dbms)
 	
-	extractAndWriteToFile(conn, "summary", cdmSchema, resultsSchema, sourceName, "T2DM12mo", dbms)
-	extractAndWriteToFile(conn, "person_cnt", cdmSchema, resultsSchema, sourceName, "T2DM12mo", dbms)
-	extractAndWriteToFile(conn, "seq_cnt", cdmSchema, resultsSchema, sourceName, "T2DM12mo", dbms)
+	extractAndWriteToFile(conn, "summary", cdmSchema, resultsSchema, sourceName, "DM12mo", dbms)
+	extractAndWriteToFile(conn, "person_cnt", cdmSchema, resultsSchema, sourceName, "DM12mo", dbms)
+	extractAndWriteToFile(conn, "seq_cnt", cdmSchema, resultsSchema, sourceName, "DM12mo", dbms)
 	
-	extractAndWriteToFile(conn, "summary", cdmSchema, resultsSchema, sourceName, "Depression12mo", dbms)
-	extractAndWriteToFile(conn, "person_cnt", cdmSchema, resultsSchema, sourceName, "Depression12mo", dbms)
-	extractAndWriteToFile(conn, "seq_cnt", cdmSchema, resultsSchema, sourceName, "Depression12mo", dbms)
+	extractAndWriteToFile(conn, "summary", cdmSchema, resultsSchema, sourceName, "Dep12mo", dbms)
+	extractAndWriteToFile(conn, "person_cnt", cdmSchema, resultsSchema, sourceName, "Dep12mo", dbms)
+	extractAndWriteToFile(conn, "seq_cnt", cdmSchema, resultsSchema, sourceName, "Dep12mo", dbms)
 	
 	DBI::dbDisconnect(conn)
 	
