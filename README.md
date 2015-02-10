@@ -9,7 +9,7 @@ This is a study of treatment pathways in hypertension, diabetes, and depression 
 
 ```R
 library(devtools)
-install_github("OHDSI/OhdsiStudy2")
+install_github(c("OHDSI/SqlRender","OHDSI/DatabaseConnector","OHDSI/OhdsiStudy2"))
 library(OhdsiStudy2)
 ?execute # To get extended help
 
