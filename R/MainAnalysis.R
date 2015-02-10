@@ -13,6 +13,7 @@
 #' @param dataDescription A short description of the database
 #' @param sourceName Short name that was be appeneded to results table name
 #' @param folder   The name of the local folder to place results;  make sure to use forward slashes (/)
+#' @param compress Use GZip compression on transmitted files
 #'
 #' @export
 email <- function(from,
@@ -20,7 +21,8 @@ email <- function(from,
 									subject = "OHDSI Study 2 Results",
 									dataDescription,
 									sourceName = "source_name",
-									folder = getwd()) {
+									folder = getwd(),
+									compress = TRUE) {
 	
 	if (missing(from)) stop("Must provide return address")
 	if (missing(dataDescription)) stop("Must provide a data description")
@@ -32,6 +34,19 @@ email <- function(from,
 												 paste(sourceName, suffix, sep =""), 
 												 sep =""))
 	absolutePaths <- paste(folder, files, sep="/")
+	
+	if (compress) {
+		
+		sapply(absolutePaths, function(name) {
+			newName = paste(name, ".gz", sep="")
+			tmp <- read.csv(file = name)			
+			newFile <- gzfile(newName, "w")
+			write.csv(tmp, newFile)
+			writeLines(paste("Compressed to file '",newName,"'",sep=""))	
+			close(newFile)
+		})
+		absolutePaths <- paste(absolutePaths, ".gz", sep="")		
+	}
 	
 	result <- mailR::send.mail(from = from,
 														 to = to,

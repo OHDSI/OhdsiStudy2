@@ -4,8 +4,9 @@
 \alias{email}
 \title{Email results}
 \usage{
-email(from, to = "msuchard@gmail.com", subject = "OHDSI Study 2 Results",
-  dataDescription, sourceName = "source_name", folder = getwd())
+email(from, to = "rijduke@gmail.com", subject = "OHDSI Study 2 Results",
+  dataDescription, sourceName = "source_name", folder = getwd(),
+  compress = TRUE)
 }
 \arguments{
 \item{from}{Return email address}
@@ -19,6 +20,8 @@ email(from, to = "msuchard@gmail.com", subject = "OHDSI Study 2 Results",
 \item{sourceName}{Short name that was be appeneded to results table name}
 
 \item{folder}{The name of the local folder to place results;  make sure to use forward slashes (/)}
+
+\item{compress}{Use GZip compression on transmitted files}
 }
 \value{
 A list of files that were emailed.
